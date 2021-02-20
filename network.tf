@@ -11,7 +11,7 @@ resource "oci_core_vcn" "fcubs" {
 }
 
 resource "oci_core_subnet" "public" {
-  #Required
+  display_name               = "public-subnet"
   cidr_block                 = var.public_subnet_cidr_block
   compartment_id             = var.compartment_id
   vcn_id                     = oci_core_vcn.fcubs.id
@@ -19,7 +19,7 @@ resource "oci_core_subnet" "public" {
 }
 
 resource "oci_core_subnet" "private" {
-  #Required
+  display_name               = "private-subnet"
   cidr_block                 = var.private_subnet_cidr_block
   compartment_id             = var.compartment_id
   vcn_id                     = oci_core_vcn.fcubs.id
