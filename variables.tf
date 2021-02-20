@@ -4,6 +4,14 @@ variable "compartment_id" {
   description = "Compartment ID"
 }
 
+variable "env_name" {
+  default = "fcubs-sandbox"
+}
+
+variable network_cidr_block {
+  default = "10.0.0.0/16"
+}
+
 variable "public_subnet_cidr_block" {
   default = "10.0.0.0/24"
 }
