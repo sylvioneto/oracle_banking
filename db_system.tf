@@ -46,7 +46,7 @@ resource "oci_database_db_system" "db_vm" {
   ssh_public_keys         = [var.ssh_public_key]
   display_name            = "${var.environment}-db-vm"
   hostname                = "${var.environment}-db-vm"
-  domain                  = "sneto.ca"
+  domain                  = var.domain
   data_storage_size_in_gb = var.data_storage_size_in_gb
   license_model           = var.license_model
   node_count              = lookup(data.oci_database_db_system_shapes.db_system_shapes.db_system_shapes[0], "minimum_node_count")

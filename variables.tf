@@ -22,7 +22,7 @@ variable "private_subnet_cidr_block" {
 
 // db system
 variable "db_system_shape" {
-  default = "VM.Standard2.2"
+  default = "VM.Standard2.1"
 }
 
 variable "db_edition" {
@@ -47,6 +47,10 @@ variable "sparse_diskgroup" {
 
 variable "hostname" {
   default = "fcubsdb"
+}
+
+variable "domain" {
+  default = "domain.com"
 }
 
 variable "host_user_name" {
