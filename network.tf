@@ -13,6 +13,9 @@ resource "oci_core_subnet" "public" {
   compartment_id             = var.compartment_id
   vcn_id                     = oci_core_vcn.network.id
   prohibit_public_ip_on_vnic = false
+  security_list_ids          = [oci_core_security_list.public.id]
+
+  depends_on = [ oci_core_vcn.network, oci_core_security_list.public ]
 }
 
 resource "oci_core_subnet" "private" {
@@ -21,6 +24,8 @@ resource "oci_core_subnet" "private" {
   compartment_id             = var.compartment_id
   vcn_id                     = oci_core_vcn.network.id
   prohibit_public_ip_on_vnic = true
+
+  depends_on = [ oci_core_vcn.network ]
 }
 
 resource "oci_core_internet_gateway" "internet_gateway" {
@@ -56,10 +61,10 @@ resource "oci_core_route_table" "route_table" {
   }
 }
 
-resource "oci_core_security_list" "db_connections" {
+resource "oci_core_security_list" "public" {
   compartment_id = var.compartment_id
   vcn_id         = oci_core_vcn.network.id
-  display_name   = "${var.environment}-db-connection-rules"
+  display_name   = "${var.environment}-public-rules"
 
   // allow outbound tcp traffic on all ports
   egress_security_rules {
