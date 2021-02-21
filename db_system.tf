@@ -25,7 +25,6 @@ resource "oci_database_db_system" "db_vm" {
       character_set              = var.character_set
       ncharacter_set             = var.n_character_set
       db_workload                = var.db_workload
-      //pdb_name                   = var.pdb_name
 
       db_backup_config {
         auto_backup_enabled = false
