@@ -1,38 +1,38 @@
 data "oci_database_db_system_shapes" "db_system_shapes" {
-  availability_domain = "${data.oci_identity_availability_domain.ad.name}"
+  availability_domain = data.oci_identity_availability_domain.ad.name
   compartment_id      = var.compartment_ocid
 
   filter {
     name   = "shape"
-    values = ["${var.db_system_shape}"]
+    values = [var.db_system_shape]
   }
 }
 
 data "oci_identity_availability_domain" "ad" {
-  compartment_id = "${var.tenancy_ocid}"
+  compartment_id = var.tenancy_ocid
   ad_number      = 1
 }
 
 resource "oci_database_db_system" "db_vm" {
-  availability_domain = "${data.oci_identity_availability_domain.ad.name}"
+  availability_domain = data.oci_identity_availability_domain.ad.name
   compartment_id      = var.compartment_ocid
   database_edition    = var.db_edition
 
   db_home {
     database {
-      admin_password             = "${var.db_admin_password}"
+      admin_password             = var.db_admin_password
       db_name                    = "fcubsdb"
-      character_set              = "${var.character_set}"
-      ncharacter_set             = "${var.n_character_set}"
-      db_workload                = "${var.db_workload}"
-      pdb_name                   = "${var.pdb_name}"
+      character_set              = var.character_set
+      ncharacter_set             = var.n_character_set
+      db_workload                = var.db_workload
+      pdb_name                   = var.pdb_name
 
       db_backup_config {
         auto_backup_enabled = false
       }
     }
 
-    db_version                 = "${var.db_version}"
+    db_version                 = var.db_version
     display_name               = "fcubsdb"
   }
 
@@ -40,14 +40,14 @@ resource "oci_database_db_system" "db_vm" {
     storage_management = "LVM"
   }
 
-  disk_redundancy         = "${var.db_disk_redundancy}"
-  shape                   = "${var.db_system_shape}"
-  subnet_id               = "${oci_core_subnet.public.id}"
-  //ssh_public_keys         = ["${var.ssh_public_key}"]
+  disk_redundancy         = var.db_disk_redundancy
+  shape                   = var.db_system_shape
+  subnet_id               = oci_core_subnet.public.id
+  //ssh_public_keys         = [var.ssh_public_key]
   display_name            = "${var.environment}-fcubsdb-vm"
   hostname                = "${var.environment}-fcubsdb-vm"
-  data_storage_size_in_gb = "${var.data_storage_size_in_gb}"
-  license_model           = "${var.license_model}"
+  data_storage_size_in_gb = var.data_storage_size_in_gb
+  license_model           = var.license_model
   node_count              = "${lookup(data.oci_database_db_system_shapes.db_system_shapes.db_system_shapes[0], "minimum_node_count")}"
   nsg_ids                 = ["${oci_core_network_security_group.network_security_group.id}"]
 
