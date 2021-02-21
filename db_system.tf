@@ -1,6 +1,6 @@
 data "oci_database_db_system_shapes" "db_system_shapes" {
   availability_domain = data.oci_identity_availability_domain.ad.name
-  compartment_id      = var.compartment_ocid
+  compartment_id      = var.compartment_id
 
   filter {
     name   = "shape"
@@ -9,13 +9,13 @@ data "oci_database_db_system_shapes" "db_system_shapes" {
 }
 
 data "oci_identity_availability_domain" "ad" {
-  compartment_id = var.tenancy_ocid
+  compartment_id = var.compartment_id
   ad_number      = 1
 }
 
 resource "oci_database_db_system" "db_vm" {
   availability_domain = data.oci_identity_availability_domain.ad.name
-  compartment_id      = var.compartment_ocid
+  compartment_id      = var.compartment_id
   database_edition    = var.db_edition
 
   db_home {
@@ -25,7 +25,7 @@ resource "oci_database_db_system" "db_vm" {
       character_set              = var.character_set
       ncharacter_set             = var.n_character_set
       db_workload                = var.db_workload
-      pdb_name                   = var.pdb_name
+      //pdb_name                   = var.pdb_name
 
       db_backup_config {
         auto_backup_enabled = false
@@ -43,7 +43,7 @@ resource "oci_database_db_system" "db_vm" {
   disk_redundancy         = var.db_disk_redundancy
   shape                   = var.db_system_shape
   subnet_id               = oci_core_subnet.public.id
-  //ssh_public_keys         = [var.ssh_public_key]
+  ssh_public_keys         = [var.ssh_public_key]
   display_name            = "${var.environment}-fcubsdb-vm"
   hostname                = "${var.environment}-fcubsdb-vm"
   data_storage_size_in_gb = var.data_storage_size_in_gb

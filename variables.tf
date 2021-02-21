@@ -77,3 +77,7 @@ variable "license_model" {
 variable "node_count" {
   default = "1"
 }
+
+variable "ssh_public_key" {
+  default = ""
+}
