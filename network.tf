@@ -3,8 +3,8 @@ data "oci_core_services" "core_services" {}
 resource "oci_core_vcn" "network" {
   compartment_id = var.compartment_id
   display_name   = var.environment
-  freeform_tags  = { "env" = "dev" }
   cidr_block     = var.network_cidr_block
+  freeform_tags  = { "env" = var.environment }
 }
 
 resource "oci_core_subnet" "public" {
@@ -34,23 +34,20 @@ resource "oci_core_service_gateway" "service_gateway" {
   services {
     service_id = data.oci_core_services.core_services.services.0.id
   }
-  services {
-    service_id = data.oci_core_services.core_services.services.1.id
-  }
   vcn_id = oci_core_vcn.network.id
 }
 
 resource "oci_core_network_security_group" "network_security_group" {
   compartment_id = var.compartment_id
   vcn_id         = oci_core_vcn.network.id
-  display_name   = "${var.environment}-default-secutiry-group"
+  display_name   = "${var.environment}-secutiry-group"
 }
 
 
-resource "oci_core_route_table" "default" {
+resource "oci_core_route_table" "route_table" {
   compartment_id = var.compartment_id
   vcn_id         = oci_core_vcn.network.id
-  display_name   = "${var.environment}-default-route-table"
+  display_name   = "${var.environment}-route-table"
 
   route_rules {
     destination       = "0.0.0.0/0"
@@ -59,10 +56,10 @@ resource "oci_core_route_table" "default" {
   }
 }
 
-resource "oci_core_security_list" "default" {
+resource "oci_core_security_list" "db_connections" {
   compartment_id = var.compartment_id
   vcn_id         = oci_core_vcn.network.id
-  display_name   = "${var.environment}-default-secutiry-list"
+  display_name   = "${var.environment}-db-connection-rules"
 
   // allow outbound tcp traffic on all ports
   egress_security_rules {
@@ -99,8 +96,14 @@ resource "oci_core_security_list" "default" {
 
   // allow inbound from customer site
   ingress_security_rules {
-    source   = "0.0.0.0/0"
-    protocol = "6"
+    description = "allow-external-db-connection"
+    source      = "0.0.0.0/0"
+    stateless   = false
+    protocol    = "6"
+    tcp_options {
+      min = 1521
+      max = 1522
+    }
   }
 }
 
