@@ -1,5 +1,6 @@
 data "oci_core_services" "core_services" {}
 
+// network and subnets
 resource "oci_core_vcn" "network" {
   compartment_id = var.compartment_id
   display_name   = var.environment
@@ -14,6 +15,7 @@ resource "oci_core_subnet" "public" {
   vcn_id                     = oci_core_vcn.network.id
   prohibit_public_ip_on_vnic = false
   depends_on                 = [oci_core_vcn.network]
+  route_table_id             = oci_core_route_table.route_table.id
 }
 
 resource "oci_core_subnet" "private" {
@@ -26,6 +28,7 @@ resource "oci_core_subnet" "private" {
   depends_on = [oci_core_vcn.network]
 }
 
+// internet connection
 resource "oci_core_internet_gateway" "internet_gateway" {
   compartment_id = var.compartment_id
   vcn_id         = oci_core_vcn.network.id
