@@ -20,19 +20,19 @@ resource "oci_database_db_system" "db_vm" {
 
   db_home {
     database {
-      admin_password             = var.db_admin_password
-      db_name                    = "fcubsdb"
-      character_set              = var.character_set
-      ncharacter_set             = var.n_character_set
-      db_workload                = var.db_workload
+      admin_password = var.db_admin_password
+      db_name        = "fcubsdb"
+      character_set  = var.character_set
+      ncharacter_set = var.n_character_set
+      db_workload    = var.db_workload
 
       db_backup_config {
         auto_backup_enabled = false
       }
     }
 
-    db_version                 = var.db_version
-    display_name               = "fcubsdb"
+    db_version   = var.db_version
+    display_name = "fcubsdb"
   }
 
   db_system_options {
@@ -49,11 +49,11 @@ resource "oci_database_db_system" "db_vm" {
   data_storage_size_in_gb = var.data_storage_size_in_gb
   license_model           = var.license_model
   node_count              = lookup(data.oci_database_db_system_shapes.db_system_shapes.db_system_shapes[0], "minimum_node_count")
-  nsg_ids                 = [oci_core_network_security_group.network_security_group.id]
+  nsg_ids                 = [oci_core_network_security_group.public_db_sg.id]
 
   freeform_tags = {
     "env" = var.environment
   }
 
-  depends_on = [ oci_core_subnet.public ]
+  depends_on = [oci_core_subnet.public]
 }
