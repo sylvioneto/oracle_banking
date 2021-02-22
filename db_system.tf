@@ -55,5 +55,5 @@ resource "oci_database_db_system" "db_vm" {
     "env" = var.environment
   }
 
-  depends_on = [oci_core_subnet.public]
+  depends_on = [oci_core_subnet.public, oci_core_network_security_group_security_rule.public_db_ingress]
 }
