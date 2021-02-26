@@ -7,8 +7,18 @@ variable "environment" {
   default = "fcubs-sandbox"
 }
 
+variable "oraclepaas" {
+  description = "config map"
+  default     = {}
+}
+
+variable "region" {
+  description = "Region where the resources must be placed"
+  default     = "ca-toronto-1"
+}
+
 // network
-variable network_cidr_block {
+variable "network_cidr_block" {
   default = "10.0.0.0/16"
 }
 

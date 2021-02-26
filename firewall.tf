@@ -10,7 +10,7 @@ resource "oci_core_network_security_group_security_rule" "public_db_ingress" {
   protocol                  = "6" // TCP
   direction                 = "INGRESS"
   source                    = "0.0.0.0/0"
-  
+
   tcp_options {
     destination_port_range {
       min = 1521

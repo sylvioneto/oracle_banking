@@ -9,15 +9,17 @@ This IaC will create:
 - Java Container Service (Weblogic)
 
 # Usage
-1. Authenticate to Oracle Cloud.
+1. Authenticate to Oracle Clou with oci and create a profile called `terraform`
 ```
-oci session refresh --profile terraform
+oci session authenticate 
 ```
-2. Create a auto.tfvars file with your private values:
+Note: to refresh the token use `oci session refresh --profile terraform`
+2. Create a `variables.auto.tfvars` file with your private values:
 ```
-ssh_public_key="foo"
+
 compartment_id="something"
 domain="mydomain"
+ssh_public_key="foo"
 ```
 3. Run Terraform
 ```
