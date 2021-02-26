@@ -1,15 +1,15 @@
+locals {
+  full_name = "fcubs-${var.environment}"
+}
+
 // environment
 variable "compartment_id" {
   description = "Compartment ID"
 }
 
 variable "environment" {
-  default = "fcubs-sandbox"
-}
-
-variable "oraclepaas" {
-  description = "config map"
-  default     = {}
+  description = "Environment name"
+  default     = "sandbox"
 }
 
 variable "region" {

@@ -6,7 +6,7 @@ resource "oci_database_db_system" "db_vm" {
   db_home {
     database {
       admin_password = var.db_admin_password
-      db_name        = "fcubsdb"
+      db_name        = "FCUBS"
       character_set  = var.character_set
       ncharacter_set = var.n_character_set
       db_workload    = var.db_workload
@@ -17,7 +17,7 @@ resource "oci_database_db_system" "db_vm" {
     }
 
     db_version   = var.db_version
-    display_name = "fcubsdb"
+    display_name = "${local.full_name}-dbhome"
   }
 
   db_system_options {
@@ -28,8 +28,8 @@ resource "oci_database_db_system" "db_vm" {
   shape                   = var.db_system_shape
   subnet_id               = oci_core_subnet.public.id
   ssh_public_keys         = [var.ssh_public_key]
-  display_name            = "${var.environment}-db-vm"
-  hostname                = "${var.environment}-db-vm"
+  display_name            = local.full_name
+  hostname                = local.full_name
   domain                  = var.domain
   data_storage_size_in_gb = var.data_storage_size_in_gb
   license_model           = var.license_model
