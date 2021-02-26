@@ -3,13 +3,13 @@ data "oci_core_services" "core_services" {}
 // network and subnets
 resource "oci_core_vcn" "network" {
   compartment_id = var.compartment_id
-  display_name   = var.environment
+  display_name   = local.full_name
   cidr_block     = var.network_cidr_block
   freeform_tags  = { "env" = var.environment }
 }
 
 resource "oci_core_subnet" "public" {
-  display_name               = "${var.environment}-public"
+  display_name               = "${local.full_name}-public"
   cidr_block                 = var.public_subnet_cidr_block
   compartment_id             = var.compartment_id
   vcn_id                     = oci_core_vcn.network.id
@@ -19,7 +19,7 @@ resource "oci_core_subnet" "public" {
 }
 
 resource "oci_core_subnet" "private" {
-  display_name               = "${var.environment}-private"
+  display_name               = "${local.full_name}-private"
   cidr_block                 = var.private_subnet_cidr_block
   compartment_id             = var.compartment_id
   vcn_id                     = oci_core_vcn.network.id
@@ -32,7 +32,7 @@ resource "oci_core_subnet" "private" {
 resource "oci_core_internet_gateway" "internet_gateway" {
   compartment_id = var.compartment_id
   vcn_id         = oci_core_vcn.network.id
-  display_name   = "${var.environment}-internet-gateway"
+  display_name   = "${local.full_name}-internet-gateway"
 }
 
 resource "oci_core_service_gateway" "service_gateway" {
@@ -46,7 +46,7 @@ resource "oci_core_service_gateway" "service_gateway" {
 resource "oci_core_route_table" "route_table" {
   compartment_id = var.compartment_id
   vcn_id         = oci_core_vcn.network.id
-  display_name   = "${var.environment}-route-table"
+  display_name   = "${local.full_name}-route-table"
 
   route_rules {
     destination       = "0.0.0.0/0"

@@ -1,7 +1,7 @@
 resource "oci_core_network_security_group" "public_db_sg" {
   compartment_id = var.compartment_id
   vcn_id         = oci_core_vcn.network.id
-  display_name   = "${var.environment}-public-db-sg"
+  display_name   = "${local.full_name}-public-db-sg"
 }
 
 resource "oci_core_network_security_group_security_rule" "public_db_ingress" {
