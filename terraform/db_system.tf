@@ -34,11 +34,10 @@ resource "oci_database_db_system" "db_vm" {
   data_storage_size_in_gb = var.data_storage_size_in_gb
   license_model           = var.license_model
   node_count              = var.db_node_count
-  nsg_ids                 = [oci_core_network_security_group.public_db_sg.id]
 
   freeform_tags = {
     "env" = var.environment
   }
 
-  depends_on = [oci_core_subnet.public, oci_core_network_security_group_security_rule.public_db_ingress]
+  depends_on = [oci_core_subnet.public]
 }

@@ -110,9 +110,13 @@ variable "ssh_public_key" {
 
 // kubernetes 
 variable "k8s_node_pool_size" {
-  default = 1
+  default = 2
 }
 
 variable "k8s_version" {
   default = "v1.18.10"
+}
+
+variable "k8s_node_shape" {
+  default = "VM.Standard2.1"
 }

@@ -29,7 +29,7 @@ resource "oci_containerengine_cluster" "cluster" {
     }
   }
 
-  depends_on = [oci_core_vcn.network, oci_core_subnet.public]
+  depends_on = [oci_core_vcn.network]
 }
 
 resource "oci_containerengine_node_pool" "small" {
@@ -38,7 +38,7 @@ resource "oci_containerengine_node_pool" "small" {
   compartment_id     = var.compartment_id
   kubernetes_version = var.k8s_version
   name               = "${local.full_name}-small"
-  node_shape         = "VM.Standard2.1"
+  node_shape         = var.k8s_node_shape
   ssh_public_key     = var.ssh_public_key
 
   #Optional
@@ -50,7 +50,8 @@ resource "oci_containerengine_node_pool" "small" {
   node_config_details {
     placement_configs {
       availability_domain = data.oci_identity_availability_domain.ad.name
-      subnet_id           = oci_core_subnet.private.id
+      subnet_id           = oci_core_subnet.public.id
+
     }
     size = var.k8s_node_pool_size
   }
