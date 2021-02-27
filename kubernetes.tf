@@ -6,12 +6,12 @@ locals {
 resource "oci_containerengine_cluster" "cluster" {
   #Required
   compartment_id     = var.compartment_id
-  kubernetes_version = data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions[0]
+  kubernetes_version = var.k8s_version
   name               = local.full_name
   vcn_id             = oci_core_vcn.network.id
 
   options {
-    service_lb_subnet_ids = [oci_core_subnet.public.id]
+    //service_lb_subnet_ids = [oci_core_subnet.public.id]
 
     add_ons {
       is_kubernetes_dashboard_enabled = "true"
@@ -36,7 +36,7 @@ resource "oci_containerengine_node_pool" "small" {
   #Required
   cluster_id         = oci_containerengine_cluster.cluster.id
   compartment_id     = var.compartment_id
-  kubernetes_version = data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions[0]
+  kubernetes_version = var.k8s_version
   name               = "${local.full_name}-small"
   node_shape         = "VM.Standard2.1"
   ssh_public_key     = var.ssh_public_key

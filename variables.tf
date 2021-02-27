@@ -112,3 +112,7 @@ variable "ssh_public_key" {
 variable "k8s_node_pool_size" {
   default = 1
 }
+
+variable "k8s_version" {
+  default = "v1.18.10"
+}
