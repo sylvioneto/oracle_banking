@@ -1,4 +1,5 @@
 .terraform*
 *tfstate*
 *tfplan*
-private.auto.tfvars
+terraform/private.auto.tfvars
+keys
