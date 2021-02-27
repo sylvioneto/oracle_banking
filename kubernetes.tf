@@ -1,7 +1,7 @@
 resource "oci_containerengine_cluster" "cluster" {
   #Required
   compartment_id     = var.compartment_id
-  kubernetes_version = data.oci_containerengine_cluster_option.cluster_option.kubernetes_versions[0]
+  kubernetes_version = var.kubernetes_version
   name               = local.full_name
   vcn_id             = oci_core_vcn.network.id
 
@@ -26,7 +26,7 @@ resource "oci_containerengine_node_pool" "small" {
   #Required
   cluster_id         = oci_containerengine_cluster.cluster.id
   compartment_id     = var.compartment_id
-  kubernetes_version = data.oci_containerengine_node_pool_option.node_pool_option.kubernetes_versions[0]
+  kubernetes_version = var.kubernetes_version
   name               = "${local.full_name}-small"
   node_shape         = "VM.Standard2.1"
   subnet_ids         = [oci_core_subnet.public.id]

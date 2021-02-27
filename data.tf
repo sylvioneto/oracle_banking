@@ -12,11 +12,3 @@ data "oci_identity_availability_domain" "ad" {
   compartment_id = var.compartment_id
   ad_number      = 1
 }
-
-data "oci_containerengine_cluster_option" "cluster_option" {
-  cluster_option_id = "all"
-}
-
-data "oci_containerengine_node_pool_option" "node_pool_option" {
-  node_pool_option_id = "all"
-}

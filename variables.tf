@@ -96,3 +96,8 @@ variable "node_count" {
 variable "ssh_public_key" {
   default = ""
 }
+
+// kubernetes 
+variable "kubernetes_version" {
+  default = "1.17.13"
+}
