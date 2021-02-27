@@ -1,9 +1,9 @@
 # Ref https://github.com/kubernetes/ingress-nginx/tree/master/charts/ingress-nginx
 controller:
   replicaCount: 2
-  # service:
-    # nginx ingress load balance. Reserve a static IP for it.
-    # loadBalancerIP: "140.238.134.154"
+  service:
+    # nginx ingress load balance. Reserve a static IP for it. https://cloud.oracle.com/networking/ip-management/public-ips
+    loadBalancerIP: "140.238.132.75"
   affinity:
     podAntiAffinity:
       preferredDuringSchedulingIgnoredDuringExecution:
