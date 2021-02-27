@@ -29,13 +29,18 @@ resource "oci_containerengine_node_pool" "small" {
   kubernetes_version = var.k8s_version
   name               = "${local.full_name}-small"
   node_shape         = "VM.Standard2.1"
-  subnet_ids         = [oci_core_subnet.public.id]
 
   #Optional
   initial_node_labels {
     #Optional
     # key   = "cluster"
     # value = "value"
+  }
+
+  node_config_details {
+    placement_configs {
+      subnet_id = oci_core_subnet.private.id
+    }
   }
 
   node_source_details {

@@ -14,13 +14,14 @@ This IaC will create:
 oci session authenticate 
 ```
 Note: to refresh the token use `oci session refresh --profile terraform`
-2. Create a `variables.auto.tfvars` file with your private values:
-```
 
+2. Create a `private.auto.tfvars` file with your private values:
+```
 compartment_id="something"
 domain="mydomain"
 ssh_public_key="foo"
 ```
+
 3. Run Terraform
 ```
 $ terraform init
