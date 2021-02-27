@@ -1,7 +1,7 @@
 resource "oci_core_security_list" "private" {
   compartment_id = var.compartment_id
   vcn_id         = oci_core_vcn.network.id
-  display_name   = "${local.full_name}-default"
+  display_name   = "${local.full_name}-private"
 
   egress_security_rules {
     description = "allow outbound tcp traffic on all ports"
@@ -10,15 +10,13 @@ resource "oci_core_security_list" "private" {
   }
 
   egress_security_rules {
-    description = "allow internal traffic"
-    destination = var.network_cidr_block
+    destination = "10.0.0.0/8"
     protocol    = "all"
     stateless   = true
   }
 
   ingress_security_rules {
-    description = "allow internal traffic"
-    source      = var.network_cidr_block
+    source      = "10.0.0.0/8"
     protocol    = "all"
     stateless   = true
   }
