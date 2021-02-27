@@ -28,6 +28,8 @@ resource "oci_containerengine_cluster" "cluster" {
       services_cidr = var.services_cidr
     }
   }
+
+  depends_on = [ oci_core_vcn.network, oci_core_subnet.public ]
 }
 
 resource "oci_containerengine_node_pool" "small" {
