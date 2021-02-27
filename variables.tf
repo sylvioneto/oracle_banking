@@ -2,6 +2,22 @@ locals {
   full_name = "fcubs-${var.environment}"
 }
 
+// authentication
+variable "tenancy_ocid" {
+}
+
+variable "user_ocid" {
+}
+
+variable "fingerprint" {
+}
+
+variable "private_key_path" {
+}
+
+variable "compartment_ocid" {
+}
+
 // environment
 variable "compartment_id" {
   description = "Compartment ID"
