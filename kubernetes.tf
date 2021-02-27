@@ -29,7 +29,7 @@ resource "oci_containerengine_cluster" "cluster" {
     }
   }
 
-  depends_on = [ oci_core_vcn.network, oci_core_subnet.public ]
+  depends_on = [oci_core_vcn.network, oci_core_subnet.public]
 }
 
 resource "oci_containerengine_node_pool" "small" {
@@ -39,6 +39,7 @@ resource "oci_containerengine_node_pool" "small" {
   kubernetes_version = var.k8s_version
   name               = "${local.full_name}-small"
   node_shape         = "VM.Standard2.1"
+  ssh_public_key     = var.ssh_public_key
 
   #Optional
   initial_node_labels {
@@ -53,7 +54,6 @@ resource "oci_containerengine_node_pool" "small" {
       subnet_id           = oci_core_subnet.private.id
     }
     size = var.k8s_node_pool_size
-
   }
 
   node_source_details {
@@ -64,5 +64,6 @@ resource "oci_containerengine_node_pool" "small" {
     #Optional
     boot_volume_size_in_gbs = "60"
   }
-  ssh_public_key = var.ssh_public_key
+
+  depends_on = [oci_containerengine_cluster.cluster]
 }
