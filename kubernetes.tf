@@ -26,8 +26,8 @@ resource "oci_containerengine_node_pool" "small" {
   #Required
   cluster_id         = oci_containerengine_cluster.cluster.id
   compartment_id     = var.compartment_id
-  kubernetes_version = data.oci_containerengine_node_pool_option.test_node_pool_option.kubernetes_versions[0]
-  name               = "small"
+  kubernetes_version = data.oci_containerengine_node_pool_option.node_pool_option.kubernetes_versions[0]
+  name               = "${local.full_name}-small"
   node_shape         = "VM.Standard2.1"
   subnet_ids         = [oci_core_subnet.public.id]
 
