@@ -30,6 +30,7 @@ resource "oci_core_subnet" "private" {
   prohibit_public_ip_on_vnic = true
   security_list_ids = [
     oci_core_security_list.internet.id,
+    oci_core_security_list.oke_management.id,
   ]
 }
 

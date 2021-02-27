@@ -51,3 +51,52 @@ resource "oci_core_security_list" "ingress_all" {
     }
   }
 }
+
+resource "oci_core_security_list" "oke_management" {
+  compartment_id = var.compartment_id
+  vcn_id         = oci_core_vcn.network.id
+  display_name   = "${local.full_name}-oke"
+
+  ingress_security_rules {
+    protocol    = "6" // tcp
+    source      = "130.35.0.0/16"
+    stateless   = false
+
+    tcp_options {
+      min = 22
+      max = 22
+    }
+  }
+
+  ingress_security_rules {
+    protocol    = "6" // tcp
+    source      = "138.1.0.0/17"
+    stateless   = false
+
+    tcp_options {
+      min = 22
+      max = 22
+    }
+  }
+  ingress_security_rules {
+    protocol    = "6" // tcp
+    source      = "147.154.0.0/16"
+    stateless   = false
+
+    tcp_options {
+      min = 22
+      max = 22
+    }
+  }
+  ingress_security_rules {
+    protocol    = "6" // tcp
+    source      = "192.29.0.0/16"
+    stateless   = false
+
+    tcp_options {
+      min = 22
+      max = 22
+    }
+  }
+
+}
