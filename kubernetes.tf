@@ -5,20 +5,13 @@ resource "oci_containerengine_cluster" "cluster" {
   name               = local.full_name
   vcn_id             = oci_core_vcn.network.id
 
-  #Optional
   options {
     service_lb_subnet_ids = [oci_core_subnet.public.id]
 
-    #Optional
     add_ons {
-      #Optional
-      # is_kubernetes_dashboard_enabled = "true"
-      # is_tiller_enabled               = "true"
     }
 
     admission_controller_options {
-      #Optional
-      # is_pod_security_policy_enabled = true
     }
 
     kubernetes_network_config {
@@ -29,12 +22,12 @@ resource "oci_containerengine_cluster" "cluster" {
   }
 }
 
-resource "oci_containerengine_node_pool" "node_pool" {
+resource "oci_containerengine_node_pool" "small" {
   #Required
   cluster_id         = oci_containerengine_cluster.cluster.id
   compartment_id     = var.compartment_id
   kubernetes_version = data.oci_containerengine_node_pool_option.test_node_pool_option.kubernetes_versions[0]
-  name               = "tfPool"
+  name               = "small"
   node_shape         = "VM.Standard2.1"
   subnet_ids         = [oci_core_subnet.public.id]
 
