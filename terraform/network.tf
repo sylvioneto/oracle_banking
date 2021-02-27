@@ -16,7 +16,7 @@ resource "oci_core_subnet" "public" {
   route_table_id             = oci_core_route_table.route_table.id
   prohibit_public_ip_on_vnic = false
   security_list_ids = [
-    oci_core_security_list.internet.id,
+    oci_core_security_list.default.id,
     oci_core_security_list.ingress_all.id,
   ]
 }
@@ -29,7 +29,7 @@ resource "oci_core_subnet" "private" {
   route_table_id             = oci_core_route_table.route_table.id
   prohibit_public_ip_on_vnic = true
   security_list_ids = [
-    oci_core_security_list.internet.id,
+    oci_core_security_list.default.id,
     oci_core_security_list.oke_management.id,
   ]
 }

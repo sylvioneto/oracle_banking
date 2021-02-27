@@ -1,12 +1,18 @@
-resource "oci_core_security_list" "internet" {
+resource "oci_core_security_list" "default" {
   compartment_id = var.compartment_id
   vcn_id         = oci_core_vcn.network.id
-  display_name   = "${local.full_name}-internet"
+  display_name   = "${local.full_name}-default"
 
   egress_security_rules {
     description = "allow outbound tcp traffic on all ports"
     destination = "0.0.0.0/0"
     protocol    = "6"
+  }
+
+  ingress_security_rules {
+    description = "allow internal traffic"
+    source      = var.network_cidr_block
+    protocol    = "all"
   }
 }
 
@@ -58,8 +64,8 @@ resource "oci_core_security_list" "oke_management" {
   display_name   = "${local.full_name}-oke"
 
   ingress_security_rules {
-    protocol    = "6" // tcp
-    source      = "130.35.0.0/16"
+    protocol = "6" // tcp
+    source   = "130.35.0.0/16"
 
     tcp_options {
       min = 22
@@ -68,8 +74,8 @@ resource "oci_core_security_list" "oke_management" {
   }
 
   ingress_security_rules {
-    protocol    = "6" // tcp
-    source      = "138.1.0.0/17"
+    protocol = "6" // tcp
+    source   = "138.1.0.0/17"
 
     tcp_options {
       min = 22
@@ -77,8 +83,8 @@ resource "oci_core_security_list" "oke_management" {
     }
   }
   ingress_security_rules {
-    protocol    = "6" // tcp
-    source      = "147.154.0.0/16"
+    protocol = "6" // tcp
+    source   = "147.154.0.0/16"
 
     tcp_options {
       min = 22
@@ -86,8 +92,8 @@ resource "oci_core_security_list" "oke_management" {
     }
   }
   ingress_security_rules {
-    protocol    = "6" // tcp
-    source      = "192.29.0.0/16"
+    protocol = "6" // tcp
+    source   = "192.29.0.0/16"
 
     tcp_options {
       min = 22
