@@ -13,6 +13,7 @@ resource "oci_core_security_list" "default" {
     description = "allow internal traffic"
     source      = var.network_cidr_block
     protocol    = "all"
+    stateless   = true
   }
 }
 
@@ -30,18 +31,6 @@ resource "oci_core_security_list" "ingress_all" {
     tcp_options {
       min = 22
       max = 22
-    }
-  }
-
-  ingress_security_rules {
-    description = "allow inbound ICMP"
-    protocol    = 1
-    source      = "0.0.0.0/0"
-    stateless   = true
-
-    icmp_options {
-      type = 3
-      code = 4
     }
   }
 
