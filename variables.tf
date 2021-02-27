@@ -112,16 +112,8 @@ variable "ssh_public_key" {
 }
 
 // kubernetes 
-variable "k8s_version" {
-  default = "1.17.13"
-}
-
 variable "k8s_node_pool_size" {
   default = 1
-}
-
-variable "node_image_id" {
-  default = "Oracle-Linux-7.9-2021.01.12-0"
 }
 
 variable "pod_cidr" {
