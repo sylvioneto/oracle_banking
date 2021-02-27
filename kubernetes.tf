@@ -1,3 +1,8 @@
+locals {
+  all_sources         = data.oci_containerengine_node_pool_option.test_node_pool_option.sources
+  oracle_linux_images = [for source in local.all_sources : source.image_id if length(regexall("Oracle-Linux-[0-9]*.[0-9]*-20[0-9]*", source.source_name)) > 0]
+}
+
 resource "oci_containerengine_cluster" "cluster" {
   #Required
   compartment_id     = var.compartment_id
@@ -9,15 +14,18 @@ resource "oci_containerengine_cluster" "cluster" {
     service_lb_subnet_ids = [oci_core_subnet.public.id]
 
     add_ons {
+      is_kubernetes_dashboard_enabled = "true"
     }
 
     admission_controller_options {
+      #Optional
+      is_pod_security_policy_enabled = true
     }
 
     kubernetes_network_config {
       #Optional
-      # pods_cidr     = "10.1.0.0/16"
-      # services_cidr = "10.2.0.0/16"
+      pods_cidr     = var.pod_cidr
+      services_cidr = var.services_cidr
     }
   }
 }
@@ -39,8 +47,11 @@ resource "oci_containerengine_node_pool" "small" {
 
   node_config_details {
     placement_configs {
-      subnet_id = oci_core_subnet.private.id
+      availability_domain = data.oci_identity_availability_domain.ad.name
+      subnet_id           = oci_core_subnet.private.id
     }
+    size = var.k8s_node_pool_size
+
   }
 
   node_source_details {
@@ -51,7 +62,5 @@ resource "oci_containerengine_node_pool" "small" {
     #Optional
     boot_volume_size_in_gbs = "60"
   }
-
-  quantity_per_subnet = var.k8s_node_per_subnet
-  ssh_public_key      = var.ssh_public_key
+  ssh_public_key = var.ssh_public_key
 }
