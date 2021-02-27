@@ -24,8 +24,8 @@ resource "oci_containerengine_cluster" "cluster" {
 
     kubernetes_network_config {
       #Optional
-      pods_cidr     = var.pod_cidr
-      services_cidr = var.services_cidr
+      # pods_cidr     = var.pod_cidr
+      # services_cidr = var.services_cidr
     }
   }
 
@@ -43,9 +43,8 @@ resource "oci_containerengine_node_pool" "small" {
 
   #Optional
   initial_node_labels {
-    #Optional
-    # key   = "cluster"
-    # value = "value"
+    key   = "env"
+    value = var.environment
   }
 
   node_config_details {

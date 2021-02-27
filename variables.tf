@@ -32,15 +32,15 @@ variable "region" {
 
 // network
 variable "network_cidr_block" {
-  default = "10.0.0.0/8"
-}
-
-variable "public_subnet_cidr_block" {
   default = "10.0.0.0/16"
 }
 
+variable "public_subnet_cidr_block" {
+  default = "10.0.0.0/24"
+}
+
 variable "private_subnet_cidr_block" {
-  default = "10.1.0.0/16"
+  default = "10.0.1.0/24"
 }
 
 // db system
@@ -111,12 +111,4 @@ variable "ssh_public_key" {
 // kubernetes 
 variable "k8s_node_pool_size" {
   default = 1
-}
-
-variable "pod_cidr" {
-  default = "10.2.0.0/16"
-}
-
-variable "services_cidr" {
-  default = "10.3.0.0/16"
 }
