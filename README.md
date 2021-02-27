@@ -1,5 +1,5 @@
 # Oracle Banking Terraform
-Use repository to create the infrastructure required to run Oracle Banking 14.4.
+Use the terraform module in this repository to create infrastructure resources required to run Oracle Banking.
 
 This IaC will create:
 - Network
