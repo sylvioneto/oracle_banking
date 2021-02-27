@@ -45,6 +45,6 @@ $ kubectl apply -f helm\oke-admin-service-account.yaml
 ### Ingress Controller
 ```
 $ helm repo update
-$ helm upgrade --install ingress-nginx ingress-nginx/ingress-nginx --version 3.19.0 -n nginx -f helm/ingress-nginx.yaml
+$ helm upgrade --install ingress-nginx ingress-nginx/ingress-nginx --version 3.23.0 -n nginx -f helm/ingress-nginx.yaml
 ```
 
