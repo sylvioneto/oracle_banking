@@ -9,6 +9,8 @@ This IaC will create:
 - Kubernetes cluster
 
 # Usage
+
+## Terraform
 ```hcl
 provider "oci" {
   region           = "ca-toronto-1"
@@ -31,3 +33,18 @@ module "fcubs" {
   ssh_public_key_path = "C:\\Users\\sylvi\\Downloads\\github\\oracle_banking\\keys\\ssh-key-2021-02-20.key.pub"
 }
 ```
+
+## Helm
+
+### Pre req
+```
+$ kubectl apply -f helm\namespaces.yaml
+$ kubectl apply -f helm\oke-admin-service-account.yaml
+```
+
+### Ingress Controller
+```
+$ helm repo update
+$ helm upgrade --install ingress-nginx ingress-nginx/ingress-nginx --version 3.19.0 -n nginx -f helm/ingress-nginx.yaml
+```
+

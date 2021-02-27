@@ -1,4 +1,4 @@
-resource "oci_core_security_list" "default" {
+resource "oci_core_security_list" "private" {
   compartment_id = var.compartment_id
   vcn_id         = oci_core_vcn.network.id
   display_name   = "${local.full_name}-default"
@@ -9,6 +9,13 @@ resource "oci_core_security_list" "default" {
     protocol    = "6"
   }
 
+  egress_security_rules {
+    description = "allow internal traffic"
+    destination = var.network_cidr_block
+    protocol    = "all"
+    stateless   = true
+  }
+
   ingress_security_rules {
     description = "allow internal traffic"
     source      = var.network_cidr_block
@@ -17,37 +24,25 @@ resource "oci_core_security_list" "default" {
   }
 }
 
-resource "oci_core_security_list" "ingress_all" {
+resource "oci_core_security_list" "public" {
   compartment_id = var.compartment_id
   vcn_id         = oci_core_vcn.network.id
-  display_name   = "${local.full_name}-ingress-all"
+  display_name   = "${local.full_name}-public"
 
-  ingress_security_rules {
-    description = "allow inbound ssh traffic"
-    protocol    = "6" // tcp
-    source      = "0.0.0.0/0"
-    stateless   = false
-
-    tcp_options {
-      min = 22
-      max = 22
-    }
+  egress_security_rules {
+    description = "allow outbound tcp traffic on all ports"
+    destination = "0.0.0.0/0"
+    protocol    = "6"
   }
-
+  
   ingress_security_rules {
-    description = "allow inbound oracle db connections"
-    protocol    = "6" // tcp
+    description = "allow internal traffic"
     source      = "0.0.0.0/0"
-    stateless   = false
-
-    tcp_options {
-      min = 1521
-      max = 1522
-    }
+    protocol    = "6"
   }
 }
 
-resource "oci_core_security_list" "oke_management" {
+resource "oci_core_security_list" "oke" {
   compartment_id = var.compartment_id
   vcn_id         = oci_core_vcn.network.id
   display_name   = "${local.full_name}-oke"

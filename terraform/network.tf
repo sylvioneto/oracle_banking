@@ -13,11 +13,10 @@ resource "oci_core_subnet" "public" {
   cidr_block                 = var.public_subnet_cidr_block
   compartment_id             = var.compartment_id
   vcn_id                     = oci_core_vcn.network.id
-  route_table_id             = oci_core_route_table.route_table.id
+  route_table_id             = oci_core_route_table.public.id
   prohibit_public_ip_on_vnic = false
   security_list_ids = [
-    oci_core_security_list.default.id,
-    oci_core_security_list.ingress_all.id,
+    oci_core_security_list.public.id,
   ]
 }
 
@@ -26,11 +25,11 @@ resource "oci_core_subnet" "private" {
   cidr_block                 = var.private_subnet_cidr_block
   compartment_id             = var.compartment_id
   vcn_id                     = oci_core_vcn.network.id
-  route_table_id             = oci_core_route_table.route_table_2.id
+  route_table_id             = oci_core_route_table.private.id
   prohibit_public_ip_on_vnic = true
   security_list_ids = [
-    oci_core_security_list.default.id,
-    oci_core_security_list.oke_management.id,
+    oci_core_security_list.private.id,
+    oci_core_security_list.oke.id,
   ]
 }
 
@@ -55,10 +54,10 @@ resource "oci_core_nat_gateway" "nat_gateway" {
   vcn_id         = oci_core_vcn.network.id
 }
 
-resource "oci_core_route_table" "route_table" {
+resource "oci_core_route_table" "public" {
   compartment_id = var.compartment_id
   vcn_id         = oci_core_vcn.network.id
-  display_name   = "${local.full_name}-route-table-1"
+  display_name   = "${local.full_name}-public"
 
   route_rules {
     destination       = "0.0.0.0/0"
@@ -67,10 +66,10 @@ resource "oci_core_route_table" "route_table" {
   }
 }
 
-resource "oci_core_route_table" "route_table_2" {
+resource "oci_core_route_table" "private" {
   compartment_id = var.compartment_id
   vcn_id         = oci_core_vcn.network.id
-  display_name   = "${local.full_name}-route-table-2"
+  display_name   = "${local.full_name}-private"
 
   route_rules {
     destination       = "0.0.0.0/0"
