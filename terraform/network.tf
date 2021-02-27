@@ -43,10 +43,11 @@ resource "oci_core_internet_gateway" "internet_gateway" {
 
 resource "oci_core_service_gateway" "service_gateway" {
   compartment_id = var.compartment_id
+  vcn_id         = oci_core_vcn.network.id
+  display_name   = "${local.full_name}-service-gw"
   services {
     service_id = data.oci_core_services.core_services.services.1.id
   }
-  vcn_id = oci_core_vcn.network.id
 }
 
 resource "oci_core_nat_gateway" "nat_gateway" {
