@@ -27,7 +27,7 @@ resource "oci_database_db_system" "db_vm" {
   disk_redundancy         = var.db_disk_redundancy
   shape                   = var.db_system_shape
   subnet_id               = oci_core_subnet.public.id
-  ssh_public_keys         = [var.ssh_public_key]
+  ssh_public_keys         = [file(var.ssh_public_key_path)]
   display_name            = local.full_name
   hostname                = local.full_name
   domain                  = var.domain

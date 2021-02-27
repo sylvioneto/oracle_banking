@@ -39,7 +39,7 @@ resource "oci_containerengine_node_pool" "small" {
   kubernetes_version = var.k8s_version
   name               = "${local.full_name}-small"
   node_shape         = var.k8s_node_shape
-  ssh_public_key     = var.ssh_public_key
+  ssh_public_key     = file(var.ssh_public_key_path)
 
   #Optional
   initial_node_labels {

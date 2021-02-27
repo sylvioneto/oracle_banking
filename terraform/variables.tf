@@ -2,19 +2,6 @@ locals {
   full_name = "fcubs-${var.environment}"
 }
 
-// authentication
-variable "tenancy_ocid" {
-}
-
-variable "user_ocid" {
-}
-
-variable "fingerprint" {
-}
-
-variable "private_key_path" {
-}
-
 // environment
 variable "compartment_id" {
   description = "Compartment ID"
@@ -23,11 +10,6 @@ variable "compartment_id" {
 variable "environment" {
   description = "Environment name"
   default     = "sandbox"
-}
-
-variable "region" {
-  description = "Region where the resources must be placed"
-  default     = "ca-toronto-1"
 }
 
 // network
@@ -104,8 +86,8 @@ variable "db_node_count" {
   default = "1"
 }
 
-variable "ssh_public_key" {
-  default = ""
+variable "ssh_public_key_path" {
+  description = "SSH key to access the vms"
 }
 
 // kubernetes 
