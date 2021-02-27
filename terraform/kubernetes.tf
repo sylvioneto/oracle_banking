@@ -11,7 +11,7 @@ resource "oci_containerengine_cluster" "cluster" {
   vcn_id             = oci_core_vcn.network.id
 
   options {
-    //service_lb_subnet_ids = [oci_core_subnet.public.id]
+    service_lb_subnet_ids = [oci_core_subnet.public.id]
 
     add_ons {
       is_kubernetes_dashboard_enabled = "true"
