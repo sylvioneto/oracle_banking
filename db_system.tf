@@ -33,7 +33,7 @@ resource "oci_database_db_system" "db_vm" {
   domain                  = var.domain
   data_storage_size_in_gb = var.data_storage_size_in_gb
   license_model           = var.license_model
-  node_count              = lookup(data.oci_database_db_system_shapes.db_system_shapes.db_system_shapes[0], "minimum_node_count")
+  node_count              = var.db_node_count
   nsg_ids                 = [oci_core_network_security_group.public_db_sg.id]
 
   freeform_tags = {

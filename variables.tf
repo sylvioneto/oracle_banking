@@ -89,7 +89,7 @@ variable "license_model" {
   default = "LICENSE_INCLUDED"
 }
 
-variable "node_count" {
+variable "db_node_count" {
   default = "1"
 }
 
@@ -98,6 +98,10 @@ variable "ssh_public_key" {
 }
 
 // kubernetes 
-variable "kubernetes_version" {
+variable "k8s_version" {
   default = "1.17.13"
+}
+
+variable "k8s_node_per_subnet" {
+  default = 1
 }
