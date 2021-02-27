@@ -2,10 +2,11 @@ data "oci_core_services" "core_services" {}
 
 // network and subnets
 resource "oci_core_vcn" "network" {
-  compartment_id = var.compartment_id
-  display_name   = local.full_name
-  cidr_block     = var.network_cidr_block
-  freeform_tags  = { "env" = var.environment }
+  compartment_id         = var.compartment_id
+  display_name           = local.full_name
+  cidr_block             = var.network_cidr_block
+  default_route_table_id = oci_core_route_table.route_table.id
+  freeform_tags          = { "env" = var.environment }
 }
 
 resource "oci_core_subnet" "public" {
@@ -14,8 +15,6 @@ resource "oci_core_subnet" "public" {
   compartment_id             = var.compartment_id
   vcn_id                     = oci_core_vcn.network.id
   prohibit_public_ip_on_vnic = false
-  depends_on                 = [oci_core_vcn.network]
-  route_table_id             = oci_core_route_table.route_table.id
   security_list_ids = [
     oci_core_security_list.internet.id,
     oci_core_security_list.ingress_all.id,
@@ -31,7 +30,6 @@ resource "oci_core_subnet" "private" {
   security_list_ids = [
     oci_core_security_list.internet.id,
   ]
-  depends_on = [oci_core_vcn.network]
 }
 
 // internet connection
