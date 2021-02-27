@@ -19,7 +19,7 @@ resource "oci_containerengine_cluster" "cluster" {
 
     admission_controller_options {
       #Optional
-      is_pod_security_policy_enabled = true
+      is_pod_security_policy_enabled = false
     }
 
     kubernetes_network_config {
