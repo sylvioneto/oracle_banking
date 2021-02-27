@@ -16,7 +16,10 @@ resource "oci_core_subnet" "public" {
   prohibit_public_ip_on_vnic = false
   depends_on                 = [oci_core_vcn.network]
   route_table_id             = oci_core_route_table.route_table.id
-  security_list_ids          = [oci_core_security_list.default.id]
+  security_list_ids = [
+    oci_core_security_list.internet.id,
+    oci_core_security_list.ingress_all.id,
+  ]
 }
 
 resource "oci_core_subnet" "private" {
@@ -25,7 +28,9 @@ resource "oci_core_subnet" "private" {
   compartment_id             = var.compartment_id
   vcn_id                     = oci_core_vcn.network.id
   prohibit_public_ip_on_vnic = true
-
+  security_list_ids = [
+    oci_core_security_list.internet.id,
+  ]
   depends_on = [oci_core_vcn.network]
 }
 

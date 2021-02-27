@@ -1,13 +1,19 @@
-resource "oci_core_security_list" "default" {
+resource "oci_core_security_list" "internet" {
   compartment_id = var.compartment_id
   vcn_id         = oci_core_vcn.network.id
-  display_name   = "${local.full_name}-security-list"
+  display_name   = "${local.full_name}-internet"
 
   egress_security_rules {
     description = "allow outbound tcp traffic on all ports"
     destination = "0.0.0.0/0"
     protocol    = "6"
   }
+}
+
+resource "oci_core_security_list" "ingress_all" {
+  compartment_id = var.compartment_id
+  vcn_id         = oci_core_vcn.network.id
+  display_name   = "${local.full_name}-ingress-all"
 
   ingress_security_rules {
     description = "allow inbound ssh traffic"
@@ -22,7 +28,7 @@ resource "oci_core_security_list" "default" {
   }
 
   ingress_security_rules {
-    description = "ICMP ingress"
+    description = "allow inbound ICMP"
     protocol    = 1
     source      = "0.0.0.0/0"
     stateless   = true
@@ -34,17 +40,14 @@ resource "oci_core_security_list" "default" {
   }
 
   ingress_security_rules {
-    description = "allow oracle db connections"
+    description = "allow inbound oracle db connections"
     protocol    = "6" // tcp
     source      = "0.0.0.0/0"
     stateless   = false
 
     tcp_options {
-      // These values correspond to the destination port range.
       min = 1521
       max = 1522
     }
   }
-
-
 }

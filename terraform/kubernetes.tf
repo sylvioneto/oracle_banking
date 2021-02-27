@@ -50,7 +50,7 @@ resource "oci_containerengine_node_pool" "small" {
   node_config_details {
     placement_configs {
       availability_domain = data.oci_identity_availability_domain.ad.name
-      subnet_id           = oci_core_subnet.public.id
+      subnet_id           = oci_core_subnet.private.id
 
     }
     size = var.k8s_node_pool_size
