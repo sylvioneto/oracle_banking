@@ -1,32 +1,34 @@
-# Oracle Banking Terraform
+# Oracle Banking
 Use repository to create the infrastructure required to run Oracle Banking 14.4.
 
 This IaC will create:
-- VPC ( called VCN in Oracle Cloud :) )
+- VNC
 - Public and Private subnets
 - Firewall rules
 - Database System with FCUBS database
-- Java Container Service (Weblogic)
+- Kubernetes cluster
 
 # Usage
-1. Authenticate to Oracle Clou with oci and create a profile called `terraform`
+1. Open the `private.auto.tfvars` file and set the values:
 ```
-oci session authenticate 
-```
-Note: to refresh the token use `oci session refresh --profile terraform`
+// authentication
+tenancy_ocid     = "ocid1.tenancy.oc1..xxxxxxxxxxx"
+user_ocid        = "ocid1.user.oc1..xxxxxxx"
+fingerprint      = "0000000000000000"
+private_key_path = "my_oci_key.pem"
+compartment_id   = "ocid1.compartment.oc1..xxxxxxxxxxxxxxxxxx"
 
-2. Create a `private.auto.tfvars` file with your private values:
-```
-compartment_id="something"
-domain="mydomain"
-ssh_public_key="foo"
+// cloud infrastructure
+domain         = "xxxxxxxx"
+ssh_public_key = "xxxxxxxx"
 ```
 
-3. Run Terraform
+2. Run Terraform
 ```
 $ terraform init
-$ terraform plan -out myplan.tfplan
-$ terraform apply myplan.tfplan
+$ terraform plan -out fcubs.tfplan
+$ terraform apply fcubs.tfplan
 ```
-4. Go to https://cloud.oracle.com dashboard to see the resources.
+
+3. Go to https://cloud.oracle.com dashboard to see the resources.
 
